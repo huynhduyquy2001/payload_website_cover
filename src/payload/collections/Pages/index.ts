@@ -68,7 +68,7 @@ export const Pages: CollectionConfig = {
           ],
           defaultValue: 'public',
           admin: {
-            position: "sidebar",
+            position: 'sidebar',
           },
         },
         {
@@ -78,7 +78,7 @@ export const Pages: CollectionConfig = {
           required: true,
           admin: {
             condition: (_, siblingData) => {
-              return siblingData.visibility === 'passwordProtected';
+              return siblingData.visibility === 'passwordProtected'
             },
           },
         },
@@ -119,10 +119,9 @@ export const Pages: CollectionConfig = {
           relationTo: 'pages',
           hasMany: false,
           admin: {
-            position: "sidebar"
-          }
+            position: 'sidebar',
+          },
         },
-
       ],
       admin: {
         position: 'sidebar',
@@ -135,8 +134,8 @@ export const Pages: CollectionConfig = {
       relationTo: 'users',
       required: true,
       admin: {
-        position: "sidebar"
-      }
+        position: 'sidebar',
+      },
     },
     {
       name: 'featuredImage',

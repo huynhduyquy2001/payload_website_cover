@@ -69,7 +69,7 @@ export const Posts: CollectionConfig = {
           ],
           defaultValue: 'public',
           admin: {
-            position: "sidebar",
+            position: 'sidebar',
           },
         },
         {
@@ -79,7 +79,7 @@ export const Posts: CollectionConfig = {
           required: true,
           admin: {
             condition: (_, siblingData) => {
-              return siblingData.visibility === 'passwordProtected';
+              return siblingData.visibility === 'passwordProtected'
             },
           },
         },
@@ -124,8 +124,8 @@ export const Posts: CollectionConfig = {
       relationTo: 'tags',
       hasMany: true,
       admin: {
-        position: "sidebar"
-      }
+        position: 'sidebar',
+      },
     },
     {
       name: 'authors',
