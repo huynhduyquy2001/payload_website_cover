@@ -28,6 +28,8 @@ import Coin from './collections/Coin'
 import CustomExchange from './collections/CustomExchange'
 import FeatureCoin from './collections/FeatureCoin'
 import FeatureExchange from './collections/FeatureExchange'
+import Ads from './collections/Ads'
+import Position from './collections/Position'
 
 const generateTitle: GenerateTitle = () => {
   return 'My Website'
@@ -71,7 +73,21 @@ export default buildConfig({
     },
   }),
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
-  collections: [Pages, Posts, Projects, Media, Categories, Users, Comments, Tags, Coin, CustomExchange, FeatureCoin, FeatureExchange,],
+  collections: [
+    Pages,
+    Posts,
+    Projects,
+    Media,
+    Categories,
+    Users,
+    Comments,
+    Tags,
+    Coin,
+    CustomExchange,
+    FeatureCoin,
+    FeatureExchange,
+    Ads,
+    Position],
   globals: [Settings, Header, Footer],
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),
