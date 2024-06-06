@@ -44,8 +44,104 @@ export const Pages: CollectionConfig = {
       required: true,
     },
     {
-      name: 'publishedAt',
-      type: 'date',
+      name: 'publish',
+      type: 'group',
+      label: 'Publish',
+      fields: [
+        {
+          name: 'visibility',
+          type: 'select',
+          label: 'Visibility',
+          options: [
+            {
+              label: 'Public',
+              value: 'public',
+            },
+            {
+              label: 'Password protected',
+              value: 'passwordProtected',
+            },
+            {
+              label: 'Private',
+              value: 'private',
+            },
+          ],
+          defaultValue: 'public',
+          admin: {
+            position: 'sidebar',
+          },
+        },
+        {
+          name: 'password',
+          type: 'text',
+          label: 'Password',
+          required: true,
+          admin: {
+            condition: (_, siblingData) => {
+              return siblingData.visibility === 'passwordProtected'
+            },
+          },
+        },
+        {
+          name: 'publishedAt',
+          type: 'date',
+          admin: {
+            position: 'sidebar',
+            date: {
+              pickerAppearance: 'dayAndTime',
+            },
+          },
+          hooks: {
+            beforeChange: [
+              ({ siblingData, value }) => {
+                if (siblingData._status === 'published' && !value) {
+                  return new Date()
+                }
+                return value
+              },
+            ],
+          },
+        },
+      ],
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'pageAttributes',
+      type: 'group',
+      label: 'Page Attributes',
+      fields: [
+        {
+          name: 'parent',
+          type: 'relationship',
+          label: 'Parent',
+          relationTo: 'pages',
+          hasMany: false,
+          admin: {
+            position: 'sidebar',
+          },
+        },
+      ],
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'author',
+      type: 'relationship',
+      label: 'Author',
+      relationTo: 'users',
+      required: true,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'featuredImage',
+      type: 'upload',
+      label: 'Featured Image',
+      relationTo: 'media',
       admin: {
         position: 'sidebar',
       },

@@ -45,6 +45,70 @@ export const Posts: CollectionConfig = {
       required: true,
     },
     {
+      name: 'publish',
+      type: 'group',
+      label: 'Publish',
+      fields: [
+        {
+          name: 'visibility',
+          type: 'select',
+          label: 'Visibility',
+          options: [
+            {
+              label: 'Public',
+              value: 'public',
+            },
+            {
+              label: 'Password protected',
+              value: 'passwordProtected',
+            },
+            {
+              label: 'Private',
+              value: 'private',
+            },
+          ],
+          defaultValue: 'public',
+          admin: {
+            position: 'sidebar',
+          },
+        },
+        {
+          name: 'password',
+          type: 'text',
+          label: 'Password',
+          required: true,
+          admin: {
+            condition: (_, siblingData) => {
+              return siblingData.visibility === 'passwordProtected'
+            },
+          },
+        },
+        {
+          name: 'publishedAt',
+          type: 'date',
+          admin: {
+            position: 'sidebar',
+            date: {
+              pickerAppearance: 'dayAndTime',
+            },
+          },
+          hooks: {
+            beforeChange: [
+              ({ siblingData, value }) => {
+                if (siblingData._status === 'published' && !value) {
+                  return new Date()
+                }
+                return value
+              },
+            ],
+          },
+        },
+      ],
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'categories',
       type: 'relationship',
       relationTo: 'categories',
@@ -54,23 +118,13 @@ export const Posts: CollectionConfig = {
       },
     },
     {
-      name: 'publishedAt',
-      type: 'date',
+      name: 'tags',
+      type: 'relationship',
+      label: 'Tags',
+      relationTo: 'tags',
+      hasMany: true,
       admin: {
         position: 'sidebar',
-        date: {
-          pickerAppearance: 'dayAndTime',
-        },
-      },
-      hooks: {
-        beforeChange: [
-          ({ siblingData, value }) => {
-            if (siblingData._status === 'published' && !value) {
-              return new Date()
-            }
-            return value
-          },
-        ],
       },
     },
     {
@@ -78,6 +132,15 @@ export const Posts: CollectionConfig = {
       type: 'relationship',
       relationTo: 'users',
       hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'featuredImage',
+      type: 'upload',
+      label: 'Featured Image',
+      relationTo: 'media',
       admin: {
         position: 'sidebar',
       },
@@ -106,6 +169,7 @@ export const Posts: CollectionConfig = {
         },
       ],
     },
+
     {
       type: 'tabs',
       tabs: [

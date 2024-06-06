@@ -1,29 +1,30 @@
 import { slateEditor } from '@payloadcms/richtext-slate'
-import path from 'path'
+import { put } from '@vercel/blob'
 import type { CollectionConfig } from 'payload/types'
 
 export const Media: CollectionConfig = {
   slug: 'media',
   upload: {
-    staticDir: path.resolve(__dirname, '../../../media'),
+    staticURL: process.env.IMAGES_URL,
+    disableLocalStorage: true,
   },
   access: {
     read: () => true,
   },
-  fields: [
-    {
-      name: 'alt',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'caption',
-      type: 'richText',
-      editor: slateEditor({
-        admin: {
-          elements: ['link'],
-        },
-      }),
-    },
-  ],
+  fields: [],
+  hooks: {
+    beforeChange: [
+      async ({ data, req, originalDoc, operation }) => {
+        if (operation === 'create' || operation === 'update') {
+          // Upload the image to Vercel Blob
+          const { url } = await put('images/image.jpg', req.files.file.data, { access: 'public' })
+          const baseUrl = process.env.IMAGES_URL + '/'
+          // Loại bỏ base URL khỏi URL đầy đủ
+          const relativeUrl = url.replace(baseUrl, '')
+          // Update the image URL field
+          data.filename = relativeUrl
+        }
+      },
+    ],
+  },
 }

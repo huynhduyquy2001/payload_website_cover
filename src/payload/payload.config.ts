@@ -23,6 +23,11 @@ import { seed } from './endpoints/seed'
 import { Footer } from './globals/Footer'
 import { Header } from './globals/Header'
 import { Settings } from './globals/Settings'
+import Tags from './collections/Tags'
+import Coin from './collections/Coin'
+import CustomExchange from './collections/CustomExchange'
+import FeatureCoin from './collections/FeatureCoin'
+import FeatureExchange from './collections/FeatureExchange'
 
 const generateTitle: GenerateTitle = () => {
   return 'My Website'
@@ -66,7 +71,7 @@ export default buildConfig({
     },
   }),
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
-  collections: [Pages, Posts, Projects, Media, Categories, Users, Comments],
+  collections: [Pages, Posts, Projects, Media, Categories, Users, Comments, Tags, Coin, CustomExchange, FeatureCoin, FeatureExchange,],
   globals: [Settings, Header, Footer],
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),
@@ -74,8 +79,6 @@ export default buildConfig({
   graphQL: {
     schemaOutputFile: path.resolve(__dirname, 'generated-schema.graphql'),
   },
-  cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
-  csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   endpoints: [
     // The seed endpoint is used to populate the database with some example data
     // You should delete this endpoint before deploying your site to production
